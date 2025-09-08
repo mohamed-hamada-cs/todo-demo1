@@ -11,5 +11,5 @@ public interface IToDoService {
     public ResponseEntity<List<Todo>> getAllTodos();
     public ResponseEntity<Todo> getTodoById(UUID id);
     public ResponseEntity<String> deleteTodoById(UUID id);
-    public ResponseEntity<String> updateTodoByID(UUID id);
+    public ResponseEntity<String> updateTodoByID(Todo todo);
 }

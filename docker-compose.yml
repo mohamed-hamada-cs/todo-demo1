@@ -1,20 +1,19 @@
-version: '3.8'
-
 services:
   postgresql:
     image: postgres:15-alpine
     container_name: todo_app_postgres
     env_file:
-      - .env  # Load environment variables from this file
+      - .env
     environment:
-      # These will now use the values from the .env file
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     ports:
       - "5432:5432"
     volumes:
-      - type: bind
-        source: C:/Users/Shimaa/Desktop/DockerShared/todo_app_postgresql
-        target: /var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
     restart: unless-stopped
+
+# Declare the named volume here
+volumes:
+  postgres_data:

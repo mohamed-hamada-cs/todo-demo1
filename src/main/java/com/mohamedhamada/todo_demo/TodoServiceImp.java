@@ -1,6 +1,5 @@
 package com.mohamedhamada.todo_demo;
 
-import org.springframework.boot.autoconfigure.graphql.GraphQlProperties;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -50,7 +49,19 @@ public class TodoServiceImp implements IToDoService {
     }
 
     @Override
-    public ResponseEntity<String> updateTodoByID(UUID id) {
-        return null;
+    public ResponseEntity<String> updateTodoByID(Todo todo) {
+        if (todo == null || todo.getUuid() == null)
+            return new ResponseEntity<>("Not valid Todo data", HttpStatus.BAD_REQUEST);
+
+        return iTodoRepo.findById(todo.getUuid())
+                .map(foundTodo -> {
+
+                    foundTodo.setTitle(todo.getTitle());
+                    foundTodo.setDescription(todo.getDescription());
+                    foundTodo.setStatus(todo.getStatus());
+
+                    Todo updatedTodo = this.iTodoRepo.save(foundTodo);
+                    return new ResponseEntity<>("Todo Updated: " + updatedTodo.toString(), HttpStatus.OK);
+                }).orElse(new ResponseEntity<>("Not found id", HttpStatus.NOT_FOUND));
     }
 }

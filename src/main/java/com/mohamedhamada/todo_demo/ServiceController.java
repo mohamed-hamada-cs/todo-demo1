@@ -5,8 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.logging.Logger;
-import java.util.logging.Level;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/todos")
@@ -18,20 +17,25 @@ public class ServiceController {
         this.todoService = todoService;
     }
 
+    /*** Controller endpoints ***/
+
     @PostMapping
-    public ResponseEntity<String> addTodo(@RequestBody Todo todo){
-//        log.info("Called Post todo | POST Mapping");
+    public ResponseEntity<String> addTodo(@RequestBody Todo todo) {
+        log.trace("Called Post todo | POST Mapping");
         return todoService.saveTodo(todo);
     }
-    @GetMapping
-    public ResponseEntity<List<Todo>> getAllTodos(){
-//        logger.log( Level.INFO, "Called GetAllTodos | Get Mapping");
 
-//        System.out.println("Called the public ResponseEntity<List<Todo>> getAllTodos() | GETMAPPING");
+    @GetMapping
+    public ResponseEntity<List<Todo>> getAllTodos() {
+        log.trace("Called GetAllTodos | Get Mapping");
         return todoService.getAllTodos();
     }
 
-
+    @GetMapping("/{uuid}")
+    public ResponseEntity<Todo> getTodoById(@PathVariable UUID uuid) {
+        log.trace("Called Get Todo By UUID | Get Mapping");
+        return todoService.getTodoById(uuid);
+    }
 }
 
 
